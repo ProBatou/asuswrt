@@ -1,7 +1,7 @@
 #!/bin/sh
 
 version=$(curl --silent https://www.asuswrt-merlin.net/  | perl -ln0e '/<table.*?table>/s;print $&' | grep -A 3 -B 1 RT-AX56U | html2text | sed '2!d')
-path="/root/asuswrt"
+path="/home/root2/asuswrt"
 
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
@@ -18,16 +18,16 @@ else
 
 wget -nv https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
 
-mkdir $path/asuswrt-merlin.ng
+mkdir $path/amng-build
 
 tar -xf $version --strip 1 -C $path/asuswrt-merlin.ng && rm $version
 
-sed -i '/X-Frame-Options/d' $path/asuswrt-merlin.ng/release/src/router/curl/tests/data/test1270
-sed -i '/X-Frame-Options/d' $path/asuswrt-merlin.ng/release/src/router/lighttpd-1.4.39/src/response.c
-sed -i '/X-Frame-Options/d' $path/asuswrt-merlin.ng/release/src/router/samba-3.6.x/source/source3/web/swat.c
-sed -i '/X-Frame-Options/d' $path/asuswrt-merlin.ng/release/src/router/samba-3.0.33/source/web/swat.c
-sed -i '/X-Frame-Options/d' $path/asuswrt-merlin.ng/release/src/router/httpd/httpd.c
-sed -i '/X-Frame-Options/d' $path/asuswrt-merlin.ng/release/src/router/vsftpd-3.x/postlogin.c
+sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/curl/tests/data/test1270
+sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/lighttpd-1.4.39/src/response.c
+sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.6.x/source/source3/web/swat.c
+sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.0.33/source/web/swat.c
+sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/httpd/httpd.c
+sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/vsftpd-3.x/postlogin.c
 
 
 #make asus
