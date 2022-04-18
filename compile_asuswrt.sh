@@ -16,13 +16,16 @@ if [ "$latestVersion" = "$version" ]; then
     echo "Version is equal"
 else
 
-wget -nv https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
+wget -q https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
 
 echo "Downlad finish"
 
-mkdir $path/amng-build || "Already exist"
 
-echo "Create folder finish" 
+if mkdir $path/amng-build ; then
+    echo "Create folder finish"
+else
+    echo "Already exist folder"
+fi
 
 tar -xf $version --strip 1 -C $path/amng-build && rm $path/$version
 
