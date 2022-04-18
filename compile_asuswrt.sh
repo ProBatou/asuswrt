@@ -27,12 +27,6 @@ else
   echo "Create folder finish"
 fi
 
-if mkdir $path/amng-build ; then
-    echo "Create folder finish"
-else
-    echo "Already exist folder"
-fi
-
 tar -xf $version --strip 1 -C $path/amng-build && rm $path/$version
 
 echo "Tar finish"
