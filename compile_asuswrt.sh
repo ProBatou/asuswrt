@@ -42,7 +42,7 @@ sed -i '/x-xss-protection/d' $path/amng-build/release/src/router/httpd/httpd.c
 
 echo "Modify file finish"
 
-cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s rt-ax56u
+cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
 
 error=$?
 
