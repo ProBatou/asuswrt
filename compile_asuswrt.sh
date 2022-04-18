@@ -20,6 +20,12 @@ wget -q https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$ve
 
 echo "Downlad finish"
 
+if [ -d "$path/amng-build/" ]; then
+  echo "Already exist folder"
+else
+  mkdir $path/amng-build
+  echo "Create folder finish"
+fi
 
 if mkdir $path/amng-build ; then
     echo "Create folder finish"
@@ -35,7 +41,7 @@ sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/curl/tests/data/
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/lighttpd-1.4.39/src/response.c
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.6.x/source/source3/web/swat.c
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.0.33/source/web/swat.c
-sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/httpd/httpd.c
+sed -i '/x-frame-options/d' $path/amng-build/release/src/router/httpd/httpd.c
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/vsftpd-3.x/postlogin.c
 
 sed -i '/x-xss-protection/d' $path/amng-build/release/src/router/httpd/httpd.c
