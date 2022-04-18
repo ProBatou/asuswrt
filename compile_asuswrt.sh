@@ -20,7 +20,7 @@ wget -nv https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$v
 
 echo "Downlad finish"
 
-mkdir $path/amng-build
+mkdir $path/amng-build || "Already exist"
 
 echo "Create folder finish" 
 
@@ -49,7 +49,7 @@ if [ $error = 0 ]; then
 
 sed -i "s/$latestVersion/$version/g" $path/version.txt
 
-changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" a | tr '\n' ' ')
+changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" | tr '\n' ' ')
 
     curl -i --silent \
         -H "Accept: application/json" \
@@ -90,6 +90,6 @@ else
         }' $WEBHOOK > /dev/null
 
         echo "Discord send"
-        
+
 fi
 fi
