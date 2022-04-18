@@ -24,7 +24,7 @@ mkdir $path/amng-build || "Already exist"
 
 echo "Create folder finish" 
 
-tar -xf $version --strip 1 -C $path/amng-build && rm $version
+tar -xf $version --strip 1 -C $path/amng-build && rm $path/$version
 
 echo "Tar finish"
 
@@ -39,9 +39,13 @@ echo "Modify file finish"
 
 #make asus
 
+cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make rt-ax56u
 
+cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) $path/
 
 error=$?
+
+rm -r amng-build/
 
 echo "Make finish"
 
