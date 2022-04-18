@@ -44,6 +44,8 @@ sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.0.33/sou
 sed -i '/x-frame-options/d' $path/amng-build/release/src/router/httpd/httpd.c
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/vsftpd-3.x/postlogin.c
 
+sed -i '/x-xss-protection/d' $path/amng-build/release/src/router/httpd/httpd.c
+
 echo "Modify file finish"
 
 #make asus
