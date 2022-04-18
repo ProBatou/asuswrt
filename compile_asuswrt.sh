@@ -40,7 +40,7 @@ if [ $error = 0 ]; then
 
 sed -i "s/$latestVersion/$version/g" $path/version.txt
 
-changelog=$(sed -e "s/\r//g" $path/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" a | tr '\n' ' ')
+changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" a | tr '\n' ' ')
 
     curl -i --silent \
         -H "Accept: application/json" \
