@@ -18,9 +18,15 @@ else
 
 wget -nv https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
 
+echo "Downlad finish"
+
 mkdir $path/amng-build
 
+echo "Create folder finish" 
+
 tar -xf $version --strip 1 -C $path/amng-build && rm $version
+
+echo "Tar finish"
 
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/curl/tests/data/test1270
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/lighttpd-1.4.39/src/response.c
@@ -29,12 +35,15 @@ sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.0.33/sou
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/httpd/httpd.c
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/vsftpd-3.x/postlogin.c
 
+echo "Modify file finish"
 
 #make asus
 
 
 
 error=$?
+
+echo "Make finish"
 
 if [ $error = 0 ]; then
 
@@ -59,6 +68,8 @@ changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$versi
             }]
         }' $WEBHOOK > /dev/null
 
+        echo "Discord send"
+
 else
 
     curl -i --silent \
@@ -78,5 +89,7 @@ else
             }]
         }' $WEBHOOK > /dev/null
 
+        echo "Discord send"
+        
 fi
 fi
