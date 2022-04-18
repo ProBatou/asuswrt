@@ -42,15 +42,15 @@ sed -i '/x-xss-protection/d' $path/amng-build/release/src/router/httpd/httpd.c
 
 echo "Modify file finish"
 
-#make asus
-
 cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s rt-ax56u
-
-cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) $path/
 
 error=$?
 
-rm -r amng-build/
+rm /var/www/html/*
+
+cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) /var/www/html/
+
+rm -r $path/amng-build/
 
 echo "Make finish"
 
