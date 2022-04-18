@@ -20,7 +20,7 @@ wget -nv https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$v
 
 mkdir $path/amng-build
 
-tar -xf $version --strip 1 -C $path/asuswrt-merlin.ng && rm $version
+tar -xf $version --strip 1 -C $path/amng-build && rm $version
 
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/curl/tests/data/test1270
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/lighttpd-1.4.39/src/response.c
