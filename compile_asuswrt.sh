@@ -42,7 +42,7 @@ echo "Modify file finish"
 
 #make asus
 
-cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make rt-ax56u
+cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s rt-ax56u
 
 cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) $path/
 
