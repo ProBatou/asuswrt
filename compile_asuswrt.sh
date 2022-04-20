@@ -2,8 +2,9 @@
 
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
+path=$PWD
 
-if [ -d "$path/WEBHOOK.txt" ]; then
+if [ -f "$path/WEBHOOK.txt" ]; then
     WEBHOOK=$(cat $path/WEBHOOK.txt)
     echo "Webhook url define"
 else
@@ -15,8 +16,6 @@ fi
 DATE=$(date +"%d/%m/%Y")
 HEURE=$(date +"%H:%M:%S")
 getCurrentTimestamp() { date -u --iso-8601=seconds; };
-
-path=$PWD
 
 if [ -d "$path/version.txt" ]; then
     latestVersion=$(cat $path/version.txt)
@@ -34,7 +33,7 @@ else
 
     echo "New version available"
 
-wget -q https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
+wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
 
 echo "Downlad finished"
 
@@ -45,7 +44,7 @@ else
   echo "Folder created"
 fi
 
-tar -xf $version --strip 1 -C $path/amng-build && rm $path/$version
+pv -p $version | tar -xf $version --strip 1 -C $path/amng-build && rm $path/$version
 
 echo "Tar extracted"
 
@@ -64,7 +63,7 @@ cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-prin
 error=$?
 
 if [ -d "/var/www/html/asuswrt" ]; then
-    sudo rm /var/www/html/asuswrt/*
+    sudo rm -rf /var/www/html/asuswrt/*
     echo "Folder exist remove file in it"
 else
     sudo mkdir /var/www/html/asuswrt
@@ -75,11 +74,11 @@ sudo cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pu
 
 changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" | tr '\n' ' ')
 
-rm -r $path/amng-build/
-
 echo "Build finished"
 
 if [ $error = 0 ]; then
+
+sudo rm -rf $path/amng-build/
 
 sed -i "s/$latestVersion/$version/g" $path/version.txt
 
