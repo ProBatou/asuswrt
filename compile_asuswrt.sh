@@ -8,7 +8,15 @@ HEURE=$(date +"%H:%M:%S")
 getCurrentTimestamp() { date -u --iso-8601=seconds; };
 
 path=$PWD
-latestVersion=$(cat $path/version.txt)
+
+if [ -d "$path/version.txt" ]; then
+    latestVersion=$(cat $path/version.txt)
+    echo "file exist"
+else
+  touch $path/version.txt
+  echo "file created"
+fi
+
 version=$(curl --silent https://www.asuswrt-merlin.net/  | perl -ln0e '/<table.*?table>/s;print $&' | grep -A 3 -B 1 RT-AX56U | html2text | sed '2!d')
 
 if [ "$latestVersion" = "$version" ]; then
