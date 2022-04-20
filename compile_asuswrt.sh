@@ -56,6 +56,8 @@ sed -i '/x-frame-options/d' $path/amng-build/release/src/router/httpd/httpd.c
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/vsftpd-3.x/postlogin.c
 sed -i '/x-xss-protection/d' $path/amng-build/release/src/router/httpd/httpd.c
 
+find $path/amng-build/release/src/router/www/ -type f | xargs grep -l "top.location.href" | xargs sed -i 's/top.location.href/location.href/g'
+
 echo "Frame removed"
 
 cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
