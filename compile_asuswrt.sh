@@ -56,7 +56,7 @@ sed -i '/x-frame-options/d' $path/amng-build/release/src/router/httpd/httpd.c
 sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/vsftpd-3.x/postlogin.c
 sed -i '/x-xss-protection/d' $path/amng-build/release/src/router/httpd/httpd.c
 
-find $path/amng-build/release/src/router/www/ -type f | xargs grep -l "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
+find $path/amng-build/ -type f | xargs grep -l "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
 
 echo "Frame removed"
 
