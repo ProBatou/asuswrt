@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 version=$(curl --silent https://www.asuswrt-merlin.net/  | perl -ln0e '/<table.*?table>/s;print $&' | grep -A 3 -B 1 RT-AX56U | html2text | sed '2!d')
 path="/home/root2/asuswrt"
@@ -15,6 +15,8 @@ latestVersion=$(cat $path/version.txt)
 if [ "$latestVersion" = "$version" ]; then
     echo "Version is equal"
 else
+
+    echo "New version available"
 
 wget -q https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
 
