@@ -2,7 +2,16 @@
 
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
-WEBHOOK="https://discord.com/api/webhooks/964958022826868766/IblcZagFYogtPJjfsK-rLqtkwOaaIzu3BimhUEIlKOty7p1SpGe_1jlEvKVW4zi7tq7z"
+
+if [ -d "$path/WEBHOOK.txt" ]; then
+    WEBHOOK=$(cat $path/WEBHOOK.txt)
+    echo "Webhook url define"
+else
+    touch $path/WEBHOOK.txt
+    read -p "what is the url of the webhook"$'\n'
+    echo $REPLY >> WEBHOOK.txt
+fi
+
 DATE=$(date +"%d/%m/%Y")
 HEURE=$(date +"%H:%M:%S")
 getCurrentTimestamp() { date -u --iso-8601=seconds; };
