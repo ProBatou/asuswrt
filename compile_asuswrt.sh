@@ -46,7 +46,13 @@ cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-prin
 
 error=$?
 
-sudo rm /var/www/html/asuswrt/*
+if [ -d "/var/www/html/asuswrt" ]; then
+    sudo rm /var/www/html/asuswrt/*
+    echo "Folder exist remove file in it"
+else
+    sudo mkdir /var/www/html/asuswrt
+    echo "Folder created"
+fi
 
 sudo cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) /var/www/html/asuswrt/
 
