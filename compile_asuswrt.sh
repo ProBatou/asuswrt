@@ -2,6 +2,7 @@
 
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
+getCurrentTimestamp() { date -u --iso-8601=seconds; };
 path=$PWD
 
 if [ -f "$path/WEBHOOK.txt" ]; then
@@ -12,10 +13,6 @@ else
     read -p "what is the url of the webhook"$'\n'
     echo $REPLY >> WEBHOOK.txt
 fi
-
-DATE=$(date +"%d/%m/%Y")
-HEURE=$(date +"%H:%M:%S")
-getCurrentTimestamp() { date -u --iso-8601=seconds; };
 
 if [ -d "$path/version.txt" ]; then
     latestVersion=$(cat $path/version.txt)
@@ -57,10 +54,10 @@ find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i '
 
 echo "Patch applied"
 
-start=`date +%M:%S`
+start=`date +%s`
 cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
 error=$?
-end=`date +%M:%S`
+end=`date +%s`
 
 if [ -d "/var/www/html/asuswrt" ]; then
     sudo rm -rf /var/www/html/asuswrt/*
@@ -84,6 +81,19 @@ sed -i "s/$latestVersion/$version/g" $path/version.txt
 
 runtime=$((end-start))
 
+if (( $runtime > 3600 )) ; then
+    let "hours=runtime/3600"
+    let "minutes=(runtime%3600)/60"
+    let "seconds=(runtime%3600)%60"
+    runtime="in $hours hour(s), $minutes minute(s) and $seconds second(s)" 
+elif (( $runtime > 60 )) ; then
+    let "minutes=(runtime%3600)/60"
+    let "seconds=(runtime%3600)%60"
+    runtime="in $minutes minute(s) and $seconds second(s)"
+else
+    runtime="in $runtime seconds"
+fi
+
     curl -i --silent \
         -H "Accept: application/json" \
         -H "Content-Type:application/json" \
@@ -93,7 +103,7 @@ runtime=$((end-start))
             "avatar_url": "'"$AVATAR_URL"'",
             "embeds": [{
                 "color": 3329330,
-                "title": "Build sucsessfully in '"$runtime"'s",
+                "title": "Build sucsessfully '"$runtime"'",
                 "author": { "name": "'"$BOTNAME"'", "icon_url": "'"$AVATAR_URL"'" },
                 "footer": { "icon_url": "'"$AVATAR_URL"'", "text": "'"$BOTNAME"'" },
                 "description": "Nouvelle mise a jour pour le routeur asus RT-AX56U\n\n**Patch Note: ** '"$changelog"'\n",
