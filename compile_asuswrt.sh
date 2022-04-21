@@ -75,7 +75,7 @@ echo "Build finished"
 
 if [ $error = 0 ]; then
 
-#sudo rm -rf $path/amng-build/
+sudo rm -rf $path/amng-build/
 
 sed -i "s/$latestVersion/$version/g" $path/version.txt
 
