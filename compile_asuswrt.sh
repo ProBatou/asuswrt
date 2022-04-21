@@ -33,7 +33,7 @@ else
 
     echo "New version available"
 
-#wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
+wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
 
 echo "Downlad finished"
 
@@ -44,21 +44,23 @@ else
   echo "Folder created"
 fi
 
-#pv -p $version | tar -xzf $version --strip 1 -C $path/amng-build && rm $path/$version
+pv -p $version | tar -xzf $version --strip 1 -C $path/amng-build && rm $path/$version
 
 echo "Archive extracted"
 
-#find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
-#find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
-#find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
-#find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
+find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
+find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
+find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
+find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
+find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
+
 
 echo "Patch applied"
 
-start=`date +%s`
+start=`date +%M:%S`
 cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
 error=$?
-end=`date +%s`
+end=`date +%M:%S`
 
 if [ -d "/var/www/html/asuswrt" ]; then
     sudo rm -rf /var/www/html/asuswrt/*
