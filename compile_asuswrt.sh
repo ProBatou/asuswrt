@@ -50,7 +50,7 @@ find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed 
 find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
 find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
 find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
-
+find $path/amng-build/ -type f | xargs grep -l -s " top." | xargs sed -i 's/ top./ window./g'
 
 echo "Patch applied"
 
