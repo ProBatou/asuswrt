@@ -44,19 +44,14 @@ else
   echo "Folder created"
 fi
 
-pv -p $version | tar -xf $version --strip 1 -C $path/amng-build && rm $path/$version
+pv -p $version | tar -xzf $version --strip 1 -C $path/amng-build && rm $path/$version
 
-echo "Tar extracted"
+echo "Archive extracted"
 
-sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/curl/tests/data/test1270
-sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/lighttpd-1.4.39/src/response.c
-sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.6.x/source/source3/web/swat.c
-sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/samba-3.0.33/source/web/swat.c
-sed -i '/x-frame-options/d' $path/amng-build/release/src/router/httpd/httpd.c
-sed -i '/X-Frame-Options/d' $path/amng-build/release/src/router/vsftpd-3.x/postlogin.c
-sed -i '/x-xss-protection/d' $path/amng-build/release/src/router/httpd/httpd.c
-
-find $path/amng-build/ -type f | xargs grep -l "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
+find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
+find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
+find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
+find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
 
 echo "Frame removed"
 
@@ -80,7 +75,7 @@ echo "Build finished"
 
 if [ $error = 0 ]; then
 
-sudo rm -rf $path/amng-build/
+#sudo rm -rf $path/amng-build/
 
 sed -i "s/$latestVersion/$version/g" $path/version.txt
 
