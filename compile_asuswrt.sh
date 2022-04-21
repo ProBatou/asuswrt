@@ -19,6 +19,8 @@ if [ -d "$path/version.txt" ]; then
     echo "file exist"
 else
   touch $path/version.txt
+  echo "000" > version.txt
+  latestVersion=$(cat $path/version.txt)
   echo "file created"
 fi
 
