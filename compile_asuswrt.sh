@@ -106,7 +106,7 @@ fi
                 "title": "Build sucsessfully '"$runtime"'",
                 "author": { "name": "'"$BOTNAME"'", "icon_url": "'"$AVATAR_URL"'" },
                 "footer": { "icon_url": "'"$AVATAR_URL"'", "text": "'"$BOTNAME"'" },
-                "description": "Nouvelle mise a jour pour le routeur asus RT-AX56U\n\n**Patch Note: ** '"$changelog"'\n",
+                "description": "New update for router RT-AX56U\n\n**Patch Note: ** '"$changelog"'\n",
                 "timestamp": "'$(getCurrentTimestamp)'"
             }]
         }' $WEBHOOK > /dev/null
