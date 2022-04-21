@@ -55,9 +55,10 @@ echo "Archive extracted"
 
 echo "Patch applied"
 
+start=`date +%s`
 cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
-
 error=$?
+end=`date +%s`
 
 if [ -d "/var/www/html/asuswrt" ]; then
     sudo rm -rf /var/www/html/asuswrt/*
@@ -79,6 +80,8 @@ if [ $error = 0 ]; then
 
 sed -i "s/$latestVersion/$version/g" $path/version.txt
 
+runtime=$((end-start))
+
     curl -i --silent \
         -H "Accept: application/json" \
         -H "Content-Type:application/json" \
@@ -88,7 +91,7 @@ sed -i "s/$latestVersion/$version/g" $path/version.txt
             "avatar_url": "'"$AVATAR_URL"'",
             "embeds": [{
                 "color": 3329330,
-                "title": "Build sucsessfully",
+                "title": "Build sucsessfully in '"$runtime"'s",
                 "author": { "name": "'"$BOTNAME"'", "icon_url": "'"$AVATAR_URL"'" },
                 "footer": { "icon_url": "'"$AVATAR_URL"'", "text": "'"$BOTNAME"'" },
                 "description": "Nouvelle mise a jour pour le routeur asus RT-AX56U\n\n**Patch Note: ** '"$changelog"'\n",
