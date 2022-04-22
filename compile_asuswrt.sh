@@ -48,32 +48,32 @@ else
     echo "Archive extracted"
 
     start=$(date +%s)
-    #find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
+    find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
     echo "X-Frame-Options removed"
-    #find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
+    find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
     echo "x-frame-options removed"
-    #find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
+    find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
     echo "x-xss-protection removed"
-    #find $path/amng-build/ -type f | xargs grep -l -s "top.location" | xargs sed -i 's/top.location/location/g'
+    find $path/amng-build/ -type f | xargs grep -l -s "top.location" | xargs sed -i 's/top.location/location/g'
     echo "top.location replaced"
-    #find $path/amng-build/ -type f | xargs grep -l -s "parent.location" | xargs sed -i 's/parent.location/location/g'
+    find $path/amng-build/ -type f | xargs grep -l -s "parent.location" | xargs sed -i 's/parent.location/location/g'
     echo "parent.location replaced"
-    #find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
+    find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
     echo "window.top replaced"
-    #find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
+    find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
     echo "top.document replaced"
-    #find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
+    find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
     echo "top.isIE8 replaced"
-    #find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
+    find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
     echo "!parent. replaced"
 
-    sed -i 's/$(MAKE)/$(MAKE) -j 24 -s/g' amng-build/release/src-rt/Makefile
+    sed -i 's/$(MAKE)/$(MAKE) -j 24 -s --no-print-directory/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
     sed -i 's/make -j 9/make -j 24 -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
     sed -i 's/make -j3/make -j 24 -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
-    sed -i 's/make -/make -s -/g' amng-build/release/src-rt/Makefile
+    sed -i 's/make -/make -s --no-print-directory -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
 
     end=$(date +%s)
@@ -81,7 +81,6 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    #cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -j 24 -s --no-print-directory rt-ax56u
     make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
