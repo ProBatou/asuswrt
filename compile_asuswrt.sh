@@ -11,6 +11,11 @@ if [ ! -w /var/www/html/ ]; then
     exit
 fi
 
+if [ ! -w $path ]; then
+    echo "You don't have permission to write to this folder"
+    exit
+fi
+
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
 getCurrentTimestamp() { date -u --iso-8601=seconds; }
