@@ -6,7 +6,7 @@ if [ $user == "root" ]; then
     exit
 fi
 
- if ls -ld /var/www/html/ | awk '{print $3}'  = !$user; then
+ if ls -ld /var/www/html/ | awk '{print $3}'  != "$user"; then
     echo "You can't compile the firmware as user www-data"
     exit
 fi
