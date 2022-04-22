@@ -46,7 +46,7 @@ else
     pv $version | tar -xzf - --strip 1 -C $path/amng-build
     rm $path/$version
     echo "Archive extracted"
-exit
+
     start=$(date +%s)
     find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
     echo "X-Frame-Options removed"
@@ -54,8 +54,10 @@ exit
     echo "x-frame-options removed"
     find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
     echo "x-xss-protection removed"
-    find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
-    echo "top.location.href replaced"
+    find $path/amng-build/ -type f | xargs grep -l -s "top.location" | xargs sed -i 's/top.location/location/g'
+    echo "top.location replaced"
+    find $path/amng-build/ -type f | xargs grep -l -s "parent.location" | xargs sed -i 's/parent.location/location/g'
+    echo "parent.location replaced"
     find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
     echo "window.top replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
@@ -65,11 +67,13 @@ exit
     find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
     echo "!parent. replaced"
 
+    sed -i 's/$(MAKE)/$(MAKE) -j 24 -s/g' amng-build/release/src-rt/Makefile
+    echo "make - replaced"
     sed -i 's/make -j 9/make -j 24 -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
     sed -i 's/make -j3/make -j 24 -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
-    sed -i 's/make -/make -s --no-print-directory -/g' amng-build/release/src-rt/Makefile
+    sed -i 's/make -/make -s -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
 
     end=$(date +%s)
