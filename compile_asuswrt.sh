@@ -50,7 +50,7 @@ else
     rm $path/$version
 
     echo "Archive extracted"
-
+    
     find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
     echo "X-Frame-Options removed"
     find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
