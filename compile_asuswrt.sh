@@ -50,7 +50,8 @@ else
     rm $path/$version
 
     echo "Archive extracted"
-    
+
+    start=$(date +%s)
     find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
     echo "X-Frame-Options removed"
     find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
@@ -65,8 +66,10 @@ else
     echo "top.document replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
     echo "top.isIE8 replaced"
+    end=$(date +%s)
+    runtimeSed=$((end - start))
 
-    echo "All replacements done"
+    echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
     cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
@@ -86,6 +89,19 @@ else
         runtime="in $minutes minute(s) and $seconds second(s)"
     else
         runtime="in $runtime seconds"
+    fi
+
+    if (($runtimeSed > 3600)); then
+        let "hours=runtime/3600"
+        let "minutes=(runtime%3600)/60"
+        let "seconds=(runtime%3600)%60"
+        runtimeSed="in $hours hour(s), $minutes minute(s) and $seconds second(s)"
+    elif (($runtimeSed > 60)); then
+        let "minutes=(runtime%3600)/60"
+        let "seconds=(runtime%3600)%60"
+        runtimeSed="in $minutes minute(s) and $seconds second(s)"
+    else
+        runtimeSed="in $runtime seconds"
     fi
 
     if [ -d "/var/www/html/asuswrt" ]; then
@@ -117,7 +133,7 @@ else
             "avatar_url": "'"$AVATAR_URL"'",
             "embeds": [{
                 "color": 3329330,
-                "title": "Build sucsessfully '"$runtime"'",
+                "title": "Build sucsessfully '"$runtime"' and apply patch '"$runtimeSed"'",
                 "author": { "name": "'"$BOTNAME"'", "icon_url": "'"$AVATAR_URL"'" },
                 "footer": { "icon_url": "'"$AVATAR_URL"'", "text": "'"$BOTNAME"'" },
                 "description": "New update for router RT-AX56U\n\n**Patch Note: ** '"$changelog"'\n",
