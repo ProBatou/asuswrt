@@ -73,6 +73,8 @@ else
     echo "parent.location replaced"
     find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
     echo "window.top replaced"
+    find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s "parent\." | xargs sed -i 's/parent\.//g'
+    echo "parent. removed"
     find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
     echo "top.document replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
