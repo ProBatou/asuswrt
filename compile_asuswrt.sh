@@ -46,7 +46,7 @@ else
     pv $version | tar -xzf - --strip 1 -C $path/amng-build
     rm $path/$version
     echo "Archive extracted"
-
+exit
     start=$(date +%s)
     find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
     echo "X-Frame-Options removed"
