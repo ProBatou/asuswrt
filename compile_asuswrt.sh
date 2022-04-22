@@ -1,5 +1,11 @@
 #!/bin/bash
 
+read -p "Enter the user to compile the firmware: " user
+if [ $user == "root" ]; then
+    echo "You can't compile the firmware as root user"
+    exit
+fi
+
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
 getCurrentTimestamp() { date -u --iso-8601=seconds; }
@@ -81,7 +87,7 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
+    su $user make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
@@ -113,14 +119,14 @@ else
     fi
 
     if [ -d "/var/www/html/asuswrt" ]; then
-        sudo rm -rf /var/www/html/asuswrt/*
+        rm -rf /var/www/html/asuswrt/*
         echo "Folder exist remove file in it"
     else
-        sudo mkdir /var/www/html/asuswrt
+        mkdir /var/www/html/asuswrt
         echo "Folder created"
     fi
 
-    sudo cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) /var/www/html/asuswrt/
+    cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) /var/www/html/asuswrt/
 
     changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" | tr '\n' ' ')
 
@@ -128,7 +134,7 @@ else
 
     if [ $error = 0 ]; then
 
-        sudo rm -rf $path/amng-build/
+        rm -rf $path/amng-build/
 
         sed -i "s/$latestVersion/$version/g" $path/version.txt
 
