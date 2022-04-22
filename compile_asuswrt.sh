@@ -33,7 +33,7 @@ else
     echo "New version available"
 
 #wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
-cp ../$path/$version $path/
+cp ..$path/$version $path/
 echo "Downlad finished"
 
 if [ -d "$path/amng-build/" ]; then
