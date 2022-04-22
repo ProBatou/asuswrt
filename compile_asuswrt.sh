@@ -75,10 +75,7 @@ else
     echo "make - replaced"
     sed -i 's/make -/make -s -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
-
-
-
-make -j 9
+    
     end=$(date +%s)
     runtimeSed=$((end - start))
 
