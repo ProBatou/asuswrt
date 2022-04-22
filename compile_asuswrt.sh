@@ -66,6 +66,9 @@ else
     echo "top.document replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
     echo "top.isIE8 replaced"
+    find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
+    echo "!parent. replaced"
+
     end=$(date +%s)
     runtimeSed=$((end - start))
 
