@@ -43,7 +43,9 @@ else
   echo "Folder created"
 fi
 
-pv -p $version | tar -xzf $version --strip 1 -C $path/amng-build && rm $path/$version
+pv $version | tar -xzf - --strip 1 -C $path/amng-build
+exit
+rm $path/$version
 
 echo "Archive extracted"
 
