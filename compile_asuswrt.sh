@@ -1,11 +1,16 @@
 #!/bin/bash
 
 user=$(whoami)
+BOTNAME=Build-Notify
+AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
+getCurrentTimestamp() { date -u --iso-8601=seconds; }
+path=$PWD
+
 if [ $user == "root" ]; then
     echo "You can't compile the firmware as root user"
     exit
 fi
-#check permission of current user with /var/www/html/
+
 if [ ! -w /var/www/html/ ]; then
     echo "You don't have permission to write to /var/www/html/"
     exit
@@ -15,11 +20,6 @@ if [ ! -w $path ]; then
     echo "You don't have permission to write to this folder"
     exit
 fi
-
-BOTNAME=Build-Notify
-AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
-getCurrentTimestamp() { date -u --iso-8601=seconds; }
-path=$PWD
 
 if [ -f "$path/WEBHOOK.txt" ]; then
     WEBHOOK=$(cat $path/WEBHOOK.txt)
