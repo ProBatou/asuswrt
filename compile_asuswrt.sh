@@ -32,8 +32,8 @@ else
 
     echo "New version available"
 
-wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
-
+#wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
+cp ../$path/$version $path/
 echo "Downlad finished"
 
 if [ -d "$path/amng-build/" ]; then
@@ -44,7 +44,7 @@ else
 fi
 
 pv $version | tar -xzf - --strip 1 -C $path/amng-build
-exit
+
 rm $path/$version
 
 echo "Archive extracted"
@@ -54,7 +54,8 @@ find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed 
 find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
 find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
 find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
-find $path/amng-build/ -type f | xargs grep -l -s " top." | xargs sed -i 's/ top./ window./g'
+find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
+find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
 
 echo "Patch applied"
 
