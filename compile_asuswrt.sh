@@ -80,12 +80,17 @@ else
     find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
     echo "!parent. replaced"
 
+    sed -i 's/make -j 9/make/g' amng-build/release/src-rt/Makefile
+    echo "make - replaced"
+    sed -i 's/make -j3/make/g' amng-build/release/src-rt/Makefile
+    echo "make - replaced"
+
     end=$(date +%s)
     runtimeSed=$((end - start))
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
+    make -C $path/amng-build/release/src-rt-5.02axhnd.675x/ rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
