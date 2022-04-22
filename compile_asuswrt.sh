@@ -52,14 +52,21 @@ else
     echo "Archive extracted"
 
     find $path/amng-build/ -type f | xargs grep -l -s "X-Frame-Options" | xargs sed -i '/X-Frame-Options/d'
+    echo "X-Frame-Options removed"
     find $path/amng-build/ -type f | xargs grep -l -s "x-frame-options" | xargs sed -i '/x-frame-options/d'
+    echo "x-frame-options removed"
     find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
+    echo "x-xss-protection removed"
     find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
+    echo "top.location.href replaced"
     find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
+    echo " window.top replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
+    echo "top.document replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
+    echo "top.isIE8 replaced"
 
-    echo "Patch applied"
+    echo "All replacements done"
 
     start=$(date +%s)
     cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
