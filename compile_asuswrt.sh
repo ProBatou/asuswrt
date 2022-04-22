@@ -1,6 +1,7 @@
 #!/bin/bash
 
 user=$(whoami)
+version=$(curl --silent https://www.asuswrt-merlin.net/ | perl -ln0e '/<table.*?table>/s;print $&' | grep -A 3 -B 1 RT-AX56U | html2text | sed '2!d')
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
 getCurrentTimestamp() { date -u --iso-8601=seconds; }
@@ -40,8 +41,6 @@ else
     echo "file created"
 fi
 
-version=$(curl --silent https://www.asuswrt-merlin.net/ | perl -ln0e '/<table.*?table>/s;print $&' | grep -A 3 -B 1 RT-AX56U | html2text | sed '2!d')
-
 if [ "$latestVersion" = "$version" ]; then
     echo "Version is equal"
 else
@@ -49,7 +48,6 @@ else
     echo "New version available"
 
     wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
-
     echo "Downlad finished"
 
     if [ -d "$path/amng-build/" ]; then
@@ -97,7 +95,7 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    su $user make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
+    make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
