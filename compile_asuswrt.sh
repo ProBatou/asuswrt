@@ -92,13 +92,13 @@ else
     fi
 
     if (($runtimeSed > 3600)); then
-        let "hours=runtime/3600"
-        let "minutes=(runtime%3600)/60"
-        let "seconds=(runtime%3600)%60"
+        let "hours=runtimeSed/3600"
+        let "minutes=(runtimeSed%3600)/60"
+        let "seconds=(runtimeSed%3600)%60"
         runtimeSed="in $hours hour(s), $minutes minute(s) and $seconds second(s)"
     elif (($runtimeSed > 60)); then
-        let "minutes=(runtime%3600)/60"
-        let "seconds=(runtime%3600)%60"
+        let "minutes=(runtimeSed%3600)/60"
+        let "seconds=(runtimeSed%3600)%60"
         runtimeSed="in $minutes minute(s) and $seconds second(s)"
     else
         runtimeSed="in $runtime seconds"
