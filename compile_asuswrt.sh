@@ -5,9 +5,9 @@ if [ $user == "root" ]; then
     echo "You can't compile the firmware as root user"
     exit
 fi
-
- if ls -ld /var/www/html/ | awk '{print $3}'  != "$user"; then
-    echo "You can't compile the firmware as user www-data"
+#check permission of current user with /var/www/html/
+if [ ! -w /var/www/html/ ]; then
+    echo "You don't have permission to write to /var/www/html/"
     exit
 fi
 
