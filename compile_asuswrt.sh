@@ -1,13 +1,12 @@
 #!/bin/bash
 
-user=$(whoami)
 version=$(curl --silent https://www.asuswrt-merlin.net/ | perl -ln0e '/<table.*?table>/s;print $&' | grep -A 3 -B 1 RT-AX56U | html2text | sed '2!d')
 BOTNAME=Build-Notify
 AVATAR_URL="https://a.fsdn.com/allura/p/asuswrt-merlin/icon?1561187555?&w=90"
 getCurrentTimestamp() { date -u --iso-8601=seconds; }
 path=$PWD
 
-if [ $user == "root" ]; then
+if [ whoami == "root" ]; then
     echo "You can't compile the firmware as root user"
     exit
 fi
