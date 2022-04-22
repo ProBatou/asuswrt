@@ -33,7 +33,9 @@ else
     echo "New version available"
 
 #wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
-cp ../$version $path/
+
+cp ../$version $path/$version
+
 echo "Downlad finished"
 
 if [ -d "$path/amng-build/" ]; then
@@ -64,6 +66,21 @@ cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-prin
 error=$?
 end=`date +%s`
 
+runtime=$((end-start))
+
+if (( $runtime > 3600 )) ; then
+    let "hours=runtime/3600"
+    let "minutes=(runtime%3600)/60"
+    let "seconds=(runtime%3600)%60"
+    runtime="in $hours hour(s), $minutes minute(s) and $seconds second(s)" 
+elif (( $runtime > 60 )) ; then
+    let "minutes=(runtime%3600)/60"
+    let "seconds=(runtime%3600)%60"
+    runtime="in $minutes minute(s) and $seconds second(s)"
+else
+    runtime="in $runtime seconds"
+fi
+
 if [ -d "/var/www/html/asuswrt" ]; then
     sudo rm -rf /var/www/html/asuswrt/*
     echo "Folder exist remove file in it"
@@ -83,21 +100,6 @@ if [ $error = 0 ]; then
 sudo rm -rf $path/amng-build/
 
 sed -i "s/$latestVersion/$version/g" $path/version.txt
-
-runtime=$((end-start))
-
-if (( $runtime > 3600 )) ; then
-    let "hours=runtime/3600"
-    let "minutes=(runtime%3600)/60"
-    let "seconds=(runtime%3600)%60"
-    runtime="in $hours hour(s), $minutes minute(s) and $seconds second(s)" 
-elif (( $runtime > 60 )) ; then
-    let "minutes=(runtime%3600)/60"
-    let "seconds=(runtime%3600)%60"
-    runtime="in $minutes minute(s) and $seconds second(s)"
-else
-    runtime="in $runtime seconds"
-fi
 
     curl -i --silent \
         -H "Accept: application/json" \
@@ -129,7 +131,7 @@ else
             "avatar_url": "'"$AVATAR_URL"'",
             "embeds": [{
                 "color": 12976176,
-                "title": "Build failed",
+                "title": "Build failed '"$runtime"'",
                 "author": { "name": "'"$BOTNAME"'", "icon_url": "'"$AVATAR_URL"'" },
                 "footer": { "icon_url": "'"$AVATAR_URL"'", "text": "'"$BOTNAME"'" },
                 "description": "Build fail \n",
