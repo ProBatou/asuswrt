@@ -68,7 +68,17 @@ else
     echo "top.isIE8 replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
     echo "!parent. replaced"
+    
+    sed -i 's/make -j 9/make -j 24 -/g' amng-build/release/src-rt/Makefile
+    echo "make - replaced"
+    sed -i 's/make -j3/make -j 24 -/g' amng-build/release/src-rt/Makefile
+    echo "make - replaced"
+    sed -i 's/make -/make -s -/g' amng-build/release/src-rt/Makefile
+    echo "make - replaced"
 
+
+
+make -j 9
     end=$(date +%s)
     runtimeSed=$((end - start))
 
