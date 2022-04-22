@@ -1,8 +1,13 @@
 #!/bin/bash
 
-user=`whoami`
+user=$(whoami)
 if [ $user == "root" ]; then
     echo "You can't compile the firmware as root user"
+    exit
+fi
+
+ if ls -ld /var/www/html/ | awk '{print $3}'  = !$user; then
+    echo "You can't compile the firmware as user www-data"
     exit
 fi
 
@@ -87,7 +92,7 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
+    su $user make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
@@ -118,24 +123,26 @@ else
         runtimeSed="in $runtime seconds"
     fi
 
-    if [ -d "/var/www/html/asuswrt" ]; then
-        rm -rf /var/www/html/asuswrt/*
-        echo "Folder exist remove file in it"
-    else
-        mkdir /var/www/html/asuswrt
-        echo "Folder created"
-    fi
-
-    cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) /var/www/html/asuswrt/
-
-    changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" | tr '\n' ' ')
-
     echo "Build finished"
 
     if [ $error = 0 ]; then
 
-        rm -rf $path/amng-build/
+        echo "Build success"
 
+        if [ -d "/var/www/html/asuswrt" ]; then
+            rm -rf /var/www/html/asuswrt/*
+            echo "Folder exist remove file in it"
+        else
+            mkdir /var/www/html/asuswrt
+            echo "Folder created"
+        fi
+
+        changelog=$(sed -e "s/\r//g" $path/amng-build/Changelog-NG.txt | sed -n "/$version/,/^$/{/./p}" | sed -e "s/$/\\\\n /g" | tr '\n' ' ')
+
+        cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) /var/www/html/asuswrt/
+        cp $(find $path/amng-build/release/src-rt-5.02axhnd.675x/ -name *_cferom_pureubi.w) $path/
+
+        rm -rf $path/amng-build/
         sed -i "s/$latestVersion/$version/g" $path/version.txt
 
         curl -i --silent \
@@ -158,6 +165,7 @@ else
         echo "Build notification sent"
 
     else
+        echo "Build failed"
 
         curl -i --silent \
             -H "Accept: application/json" \
