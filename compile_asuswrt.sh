@@ -81,7 +81,8 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -j 24 -s --no-print-directory rt-ax56u
+    #cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -j 24 -s --no-print-directory rt-ax56u
+    make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
