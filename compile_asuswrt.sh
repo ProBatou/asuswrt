@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -p "Enter the user to compile the firmware: " user
+user=`whoami`
 if [ $user == "root" ]; then
     echo "You can't compile the firmware as root user"
     exit
@@ -87,7 +87,7 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    su $user make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
+    make -j 24 -C $path/amng-build/release/src-rt-5.02axhnd.675x/ -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
