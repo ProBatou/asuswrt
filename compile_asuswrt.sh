@@ -89,9 +89,9 @@ else
     echo "!parent. replaced"
 
     sed -i 's/make -j 9/make/g' amng-build/release/src-rt/Makefile
-    echo "make - replaced"
+    echo "make -j 9 replaced"
     sed -i 's/make -j3/make/g' amng-build/release/src-rt/Makefile
-    echo "make - replaced"
+    echo "make -j3 replaced"
 
     end=$(date +%s)
     runtimeSed=$((end - start))
