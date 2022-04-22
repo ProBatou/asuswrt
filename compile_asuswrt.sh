@@ -33,9 +33,7 @@ else
     echo "New version available"
 
     #wget -q --show-progress https://codeload.github.com/RMerl/asuswrt-merlin.ng/tar.gz/refs/tags/$version
-
     cp ../$version $path/$version
-
     echo "Downlad finished"
 
     if [ -d "$path/amng-build/" ]; then
@@ -46,9 +44,7 @@ else
     fi
 
     pv $version | tar -xzf - --strip 1 -C $path/amng-build
-
     rm $path/$version
-
     echo "Archive extracted"
 
     start=$(date +%s)
@@ -68,24 +64,22 @@ else
     echo "top.isIE8 replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
     echo "!parent. replaced"
-    
+
     sed -i 's/make -j 9/make -j 24 -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
     sed -i 's/make -j3/make -j 24 -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
     sed -i 's/make -/make -s -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
-    
+
     end=$(date +%s)
     runtimeSed=$((end - start))
-
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
     cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
-
     runtime=$((end - start))
 
     if (($runtime > 3600)); then
