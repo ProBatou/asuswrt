@@ -92,7 +92,7 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    make -C -s $path/amng-build/release/src-rt-5.02axhnd.675x/ rt-ax56u
+    make -s -C $path/amng-build/release/src-rt-5.02axhnd.675x/ rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
