@@ -57,7 +57,7 @@ else
     find $path/amng-build/ -type f | xargs grep -l -s "top.location.href" | xargs sed -i 's/top.location.href/window.location.href/g'
     echo "top.location.href replaced"
     find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
-    echo " window.top replaced"
+    echo "window.top replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
     echo "top.document replaced"
     find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
@@ -69,7 +69,7 @@ else
     echo "make - replaced"
     sed -i 's/make -j3/make -j 24 -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
-    sed -i 's/make -/make -s -/g' amng-build/release/src-rt/Makefile
+    sed -i 's/make -/make -s --no-print-directory -/g' amng-build/release/src-rt/Makefile
     echo "make - replaced"
 
     end=$(date +%s)
@@ -77,7 +77,7 @@ else
     echo "All replacements done in $runtimeSed seconds"
 
     start=$(date +%s)
-    cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -s --no-print-directory rt-ax56u
+    cd $path/amng-build/release/src-rt-5.02axhnd.675x/ && /usr/bin/make -j 24 -s --no-print-directory rt-ax56u
     error=$?
     end=$(date +%s)
     runtime=$((end - start))
