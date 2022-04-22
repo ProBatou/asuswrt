@@ -14,7 +14,7 @@ else
     echo $REPLY >>WEBHOOK.txt
 fi
 
-if [ -d "$path/version.txt" ]; then
+if [ -f "$path/version.txt" ]; then
     latestVersion=$(cat $path/version.txt)
     echo "file exist"
 else
