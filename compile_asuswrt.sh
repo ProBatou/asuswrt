@@ -67,11 +67,11 @@ else
     echo "x-frame-options removed"
     find $path/amng-build/ -type f | xargs grep -l -s "x-xss-protection" | xargs sed -i '/x-xss-protection/d'
     echo "x-xss-protection removed"
-    find $path/amng-build/ -type f | xargs grep -l -s "top.location" | xargs sed -i 's/top.location/location/g'
+    find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s "top.location" | xargs sed -i 's/top.location/location/g'
     echo "top.location replaced"
-    find $path/amng-build/ -type f | xargs grep -l -s "parent.location" | xargs sed -i 's/parent.location/location/g'
+    find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s "parent.location" | xargs sed -i 's/parent.location/location/g'
     echo "parent.location replaced"
-    find $path/amng-build/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
+    find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s " window.top" | xargs sed -i 's/ window.top/ window/g'
     echo "window.top replaced"
     find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s "parent\." | xargs sed -i 's/parent\.//g'
     echo "parent. removed"
@@ -81,11 +81,11 @@ else
     echo "  top. removed"
     find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s $'\[top\.' | xargs sed -i 's/\[top\./[/g'
     echo "[top. removed"
-    find $path/amng-build/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
+    find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s "top.document" | xargs sed -i 's/top.document/document/g'
     echo "top.document replaced"
-    find $path/amng-build/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
+    find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s "top.isIE8" | xargs sed -i 's/top.isIE8/isIE8/g'
     echo "top.isIE8 replaced"
-    find $path/amng-build/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
+    find $path/amng-build/release/src/router/www/ -type f | xargs grep -l -s "\!parent\." | xargs sed -i 's/!parent./!/g'
     echo "!parent. replaced"
 
     sed -i 's/make -j 9/make/g' amng-build/release/src-rt/Makefile
